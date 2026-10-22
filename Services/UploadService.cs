@@ -105,7 +105,11 @@ public class UploadService(IWebHostEnvironment omgeving, ILogger<UploadService> 
 
             using var stroom = File.OpenRead(pdfPad);
             var configuratie = new RenderOptions(WithAnnotations: true);
-            using var bitmap = Conversion.ToImage(stroom, page: 0, options: configuratie);
+#if NET8_0_OR_GREATER
+            using var bitmap = PdfToImage.Conversion.ToImage(stroom, 0, configuratie);
+#else
+            using var bitmap = Conversion.ToImage(stream: stroom, page: 0, options: configuratie);
+#endif
             var schaal = 480d / bitmap.Width;
             if (schaal >= 1) schaal = 1;
             using var verkleind = new SKBitmap(480, Math.Max(1, (int)Math.Round(bitmap.Height * schaal)));
