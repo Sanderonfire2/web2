@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using SchoolPortfolio.Models;
 
 namespace SchoolPortfolio.Data;
@@ -8,7 +10,28 @@ public static class DataInitializer
     public static void Initialiseer(IServiceProvider services)
     {
         using var db = services.GetRequiredService<SiteDbContext>();
-        db.Database.Migrate();
+
+        // Verzeker de DB-tabel voor migratiegeschiedenis, zodat Migrate() op een
+        // schone server niet faalt met "no such table: __EFMigrationsHistory".
+        try
+        {
+            db.Database.EnsureCreated();
+        }
+        catch
+        {
+            // Bij een readonly map of een lock van een andere pool is het
+            // veiliger om door te gaan dan om direkt op te houden.
+        }
+
+        try
+        {
+            db.Database.Migrate();
+        }
+        catch (Exception ex)
+        {
+            var logger = services.GetService<ILogger<DataInitializer>>();
+            logger?.LogError(ex, "Migrate() mislukt voor {DbPad}. De app start wel, maar schema-updates worden overgeslagen.", db.Database.GetDbConnection().DataSource ?? "onbekend");
+        }
         if (db.Profielen.Any())
         {
             // Alleen-rapporten: zet bestaande stageverslag-PDF om naar een Rapport-record,

@@ -5,6 +5,8 @@ using SchoolPortfolio.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.AddConsole();
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient();
