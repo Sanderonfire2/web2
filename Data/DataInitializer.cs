@@ -29,7 +29,7 @@ public static class DataInitializer
         }
         catch (Exception ex)
         {
-            var logger = services.GetService<ILogger<DataInitializer>>();
+            var logger = services.GetService<Microsoft.Extensions.Logging.ILogger<DataInitializer>>();
             logger?.LogError(ex, "Migrate() mislukt voor {DbPad}. De app start wel, maar schema-updates worden overgeslagen.", db.Database.GetDbConnection().DataSource ?? "onbekend");
         }
         if (db.Profielen.Any())
