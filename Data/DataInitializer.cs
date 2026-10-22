@@ -24,7 +24,6 @@ public static class DataInitializer
             var logger = services.GetService<Microsoft.Extensions.Logging.ILogger<Program>>();
             logger?.LogError(ex, "EnsureCreated() mislukt voor {DbPad}. Kan schema niet initialiseren.", dbPad);
         }
-
         try
         {
             db.Database.Migrate();
@@ -34,7 +33,6 @@ public static class DataInitializer
             var logger = services.GetService<Microsoft.Extensions.Logging.ILogger<Program>>();
             logger?.LogError(ex, "Migrate() mislukt voor {DbPad}. Kan schema-history niet aanpassen.", dbPad);
         }
-
         // Stel alleen standaarddata in op een database die nog geen profiling heeft.
         // Als de tabel niet bestaat, dan heeft de database niet de juiste basisstructuur
         // en mogen we hier geen standaarddata proberen te schrijven.
@@ -44,23 +42,24 @@ public static class DataInitializer
             {
                 if (db.Profielen.Any())
                 {
-            // Alleen-rapporten: zet bestaande stageverslag-PDF om naar een Rapport-record,
-            // zodat oudere uploads behouden blijven en in de nieuwe dagrapport-lijst verschijnen.
-            foreach (var stage in db.Stages.Include(s => s.Rapporten).Where(s => s.VerslagPad != null).ToList())
-            {
-                if (stage.Rapporten.Any(r => r.Pad == stage.VerslagPad)) continue;
-                db.Rapporten.Add(new Rapport
-                {
-                    StageId = stage.Id,
-                    Pad = stage.VerslagPad,
-                    Titel = "Stageverslag",
-                    Datum = DateTime.Today,
-                    IsGepubliceerd = true,
-                    Volgorde = 1
-                });
-            }
-            db.SaveChanges();
-            return;
+                    // Alleen-rapporten: zet bestaande stageverslag-PDF om naar een Rapport-record,
+                    // zodat oudere uploads behouden blijven en in de nieuwe dagrapport-lijst verschijnen.
+                    foreach (var stage in db.Stages.Include(s => s.Rapporten).Where(s => s.VerslagPad != null).ToList())
+                    {
+                        if (stage.Rapporten.Any(r => r.Pad == stage.VerslagPad)) continue;
+                        db.Rapporten.Add(new Rapport
+                        {
+                            StageId = stage.Id,
+                            Pad = stage.VerslagPad,
+                            Titel = "Stageverslag",
+                            Datum = DateTime.Today,
+                            IsGepubliceerd = true,
+                            Volgorde = 1
+                        });
+                    }
+                    db.SaveChanges();
+                    return;
+                }
             }
             catch (Exception ex)
             {
@@ -72,34 +71,28 @@ public static class DataInitializer
         {
             var logger = services.GetService<Microsoft.Extensions.Logging.ILogger<Program>>();
             logger?.LogWarning("Geen verbinding met de database {DbPad}; standaarddata wordt overgeslagen.", dbPad);
+            return;
         }
 
-        // Als de tabel Profielen ontbreekt, dan is de basisstructuur onvolledig.
-        // We proberen de rest van de initialisatie niet voort te zetten in een onzekere staat.
-        if (!db.Profielen.Any())
-        {
-            var logger = services.GetService<Microsoft.Extensions.Logging.ILogger<Program>>();
-            logger?.LogWarning("Tabel Profielen ontbreekt na initialisatie van {DbPad}; standaarddata wordt niet aangemaakt.", dbPad);
-        }
-
-        if (db.Profielen.Any())
-        {
-            db.Profielen.Add(new Profiel
+        // Alleen bereiken wanneer er nog geen profiel bestaat.
+        db.Profielen.Add(new Profiel
             {
                 VolledigeNaam = "Sander Van Praet",
-            Tagline = "Student elektriciteit & installatietechniek — gewend om secuur en veilig te werken.",
-            KorteIntroductie = "Ik studeer elektriciteit en werk rond installatietechniek: installatieschema's, stroomkringen, motorsturingen en meetrapporten volgens de AREI-normen.",
-            OverMijTekst = "Elektriciteit trekt me aan omdat het tastbaar werk is: wat ik aanleg en afsluit, moet veilig blijven functioneren, elke dag. Het werk vraagt precisie, een duidelijke aanpak en goedgekeurd materiaal — en dat past bij mij.\n\nIn de lessen bestudeer ik de volledige keten van de installatietechniek: verdeelborden, beveiligingen, aarding, motorsturingen en meettechnieken. Waar het kan, benoem ik verder met een multimeter en teken ik schema's die collega's meteen kunnen hergebruiken.\n\nNaast school werk ik liever op een bouwplaats of in een werkstraat: ik leer het snelst door te zien hoe een ervaren elektricien zijn werk goed plant, zijn materiaal klaarzetten en zijn installatie afwerkt tot het feilloos door de keuring loopt.",
-            Woonplaats = "Roeselare, België",
-            Email = "sander@vanpraet.be",
-            LinkedInUrl = "https://www.linkedin.com/in/sandervanpraet",
-            ProfielfotoPad = "/img/profiel.svg",
-            BijgewerktOp = DateTime.Now
+                Tagline = "Student elektriciteit & installatietechniek — gewend om secuur en veilig te werken.",
+                KorteIntroductie = "Ik studeer elektriciteit en werk rond installatietechniek: installatieschema's, stroomkringen, motorsturingen en meetrapporten volgens de AREI-normen.",
+                OverMijTekst = "Elektriciteit trekt me aan omdat het tastbaar werk is: wat ik aanleg en afsluit, moet veilig blijven functioneren, elke dag. Het werk vraagt precisie, een duidelijke aanpak en goedgekeurd materiaal — en dat past bij mij.\n\nIn de lessen bestudeer ik de volledige keten van de installatietechniek: verdeelborden, beveiligingen, aarding, motorsturingen en meettechnieken. Waar het kan, benoem ik verder met een multimeter en teken ik schema's die collega's meteen kunnen hergebruiken.\n\nNaast school werk ik liever op een bouwplaats of in een werkstraat: ik leer het snelst door te zien hoe een ervaren elektricien zijn werk goed plant, zijn materiaal klaarzetten en zijn installatie afwerkt tot het feilloos door de keuring loopt.",
+                Woonplaats = "Roeselare, België",
+                Email = "sander@vanpraet.be",
+                LinkedInUrl = "https://www.linkedin.com/in/sandervanpraet",
+                ProfielfotoPad = "/img/profiel.svg",
+                BijgewerktOp = DateTime.Now
         });
 
+        db.SaveChanges();
+
         var project1 = new Project
-        {
-            Titel = "Installatiestudie nieuwbouwwoning",
+            {
+                Titel = "Installatiestudie nieuwbouwwoning",
             Slug = "installatiestudie-woning",
             Categorie = "Electrische installaties",
             Periode = "2026 · Semester 2",
@@ -114,6 +107,7 @@ public static class DataInitializer
             Volgorde = 1,
             BijgewerktOp = DateTime.Now
         };
+
 
         var project2 = new Project
         {
@@ -133,6 +127,7 @@ public static class DataInitializer
             BijgewerktOp = DateTime.Now
         };
 
+
         var project3 = new Project
         {
             Titel = "Stopcontact en tuinlicht buiten",
@@ -151,6 +146,7 @@ public static class DataInitializer
             BijgewerktOp = DateTime.Now
         };
 
+
         var project4 = new Project
         {
             Titel = "Installatieplan leeszone",
@@ -168,6 +164,7 @@ public static class DataInitializer
             Volgorde = 4,
             BijgewerktOp = DateTime.Now
         };
+
 
         db.AddRange(project1, project2, project3, project4);
 
