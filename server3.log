@@ -1,0 +1,687 @@
+Using launch settings from C:\Users\SanderVanPraet\Documents\Sander Van Praet\SchoolPortfolio\Properties\launchSettings.json...
+Building...
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (50ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      PRAGMA journal_mode = 'wal';
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "ContactBerichten" (
+          "Id" INTEGER NOT NULL CONSTRAINT "PK_ContactBerichten" PRIMARY KEY AUTOINCREMENT,
+          "Naam" TEXT NOT NULL,
+          "Email" TEXT NOT NULL,
+          "Onderwerp" TEXT NOT NULL,
+          "Inhoud" TEXT NOT NULL,
+          "VerstuurdOp" TEXT NOT NULL,
+          "IsGelezen" INTEGER NOT NULL
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "Opleidingen" (
+          "Id" INTEGER NOT NULL CONSTRAINT "PK_Opleidingen" PRIMARY KEY AUTOINCREMENT,
+          "Periode" TEXT NOT NULL,
+          "Titel" TEXT NOT NULL,
+          "Instelling" TEXT NULL,
+          "Locatie" TEXT NULL,
+          "Omschrijving" TEXT NOT NULL,
+          "IsGepubliceerd" INTEGER NOT NULL,
+          "Volgorde" INTEGER NOT NULL
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "PaginaInhouden" (
+          "Sleutel" TEXT NOT NULL CONSTRAINT "PK_PaginaInhouden" PRIMARY KEY,
+          "Inhoud" TEXT NOT NULL,
+          "IsGepubliceerd" INTEGER NOT NULL
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "Profielen" (
+          "Id" INTEGER NOT NULL CONSTRAINT "PK_Profielen" PRIMARY KEY AUTOINCREMENT,
+          "VolledigeNaam" TEXT NOT NULL,
+          "Tagline" TEXT NOT NULL,
+          "KorteIntroductie" TEXT NOT NULL,
+          "OverMijTekst" TEXT NOT NULL,
+          "Woonplaats" TEXT NULL,
+          "Email" TEXT NULL,
+          "Telefoon" TEXT NULL,
+          "LinkedInUrl" TEXT NULL,
+          "ProfielfotoPad" TEXT NULL,
+          "BijgewerktOp" TEXT NOT NULL
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "Projecten" (
+          "Id" INTEGER NOT NULL CONSTRAINT "PK_Projecten" PRIMARY KEY AUTOINCREMENT,
+          "Titel" TEXT NOT NULL,
+          "Slug" TEXT NULL,
+          "Categorie" TEXT NULL,
+          "Periode" TEXT NULL,
+          "Rol" TEXT NULL,
+          "Technologieen" TEXT NULL,
+          "KorteSamenvatting" TEXT NOT NULL,
+          "Omschrijving" TEXT NOT NULL,
+          "Uitdaging" TEXT NULL,
+          "Geleerd" TEXT NULL,
+          "CoverPad" TEXT NULL,
+          "IsUitgelicht" INTEGER NOT NULL,
+          "IsGepubliceerd" INTEGER NOT NULL,
+          "Volgorde" INTEGER NOT NULL,
+          "BijgewerktOp" TEXT NOT NULL
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "Stages" (
+          "Id" INTEGER NOT NULL CONSTRAINT "PK_Stages" PRIMARY KEY AUTOINCREMENT,
+          "Periode" TEXT NOT NULL,
+          "Bedrijf" TEXT NOT NULL,
+          "Functie" TEXT NOT NULL,
+          "Locatie" TEXT NULL,
+          "Omschrijving" TEXT NOT NULL,
+          "Taken" TEXT NULL,
+          "VerslagPad" TEXT NULL,
+          "IsGepubliceerd" INTEGER NOT NULL,
+          "Volgorde" INTEGER NOT NULL
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "Werkervaringen" (
+          "Id" INTEGER NOT NULL CONSTRAINT "PK_Werkervaringen" PRIMARY KEY AUTOINCREMENT,
+          "Periode" TEXT NOT NULL,
+          "Bedrijf" TEXT NOT NULL,
+          "Functie" TEXT NOT NULL,
+          "Locatie" TEXT NULL,
+          "Omschrijving" TEXT NOT NULL,
+          "IsGepubliceerd" INTEGER NOT NULL,
+          "Volgorde" INTEGER NOT NULL
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE "GallerijAfbeeldingen" (
+          "Id" INTEGER NOT NULL CONSTRAINT "PK_GallerijAfbeeldingen" PRIMARY KEY AUTOINCREMENT,
+          "ProjectId" INTEGER NOT NULL,
+          "Pad" TEXT NOT NULL,
+          "Onderschrift" TEXT NULL,
+          "Volgorde" INTEGER NOT NULL,
+          CONSTRAINT "FK_GallerijAfbeeldingen_Projecten_ProjectId" FOREIGN KEY ("ProjectId") REFERENCES "Projecten" ("Id") ON DELETE CASCADE
+      );
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX "IX_GallerijAfbeeldingen_ProjectId" ON "GallerijAfbeeldingen" ("ProjectId");
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "Profielen" AS "p")
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@p0='?' (Size = 16), @p1='?' (DbType = Boolean), @p2='?' (Size = 8), @p3='?' (Size = 271), @p4='?' (Size = 12), @p5='?' (Size = 44), @p6='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Opleidingen" ("Instelling", "IsGepubliceerd", "Locatie", "Omschrijving", "Periode", "Titel", "Volgorde")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 29), @p1='?' (DbType = Boolean), @p2='?' (Size = 9), @p3='?' (Size = 219), @p4='?' (Size = 11), @p5='?' (Size = 35), @p6='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Opleidingen" ("Instelling", "IsGepubliceerd", "Locatie", "Omschrijving", "Periode", "Titel", "Volgorde")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = Boolean), @p2='?', @p3='?' (Size = 133), @p4='?' (Size = 24), @p5='?' (Size = 50), @p6='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Opleidingen" ("Instelling", "IsGepubliceerd", "Locatie", "Omschrijving", "Periode", "Titel", "Volgorde")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 13), @p1='?' (Size = 140), @p2='?' (DbType = Boolean)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "PaginaInhouden" ("Sleutel", "Inhoud", "IsGepubliceerd")
+      VALUES (@p0, @p1, @p2);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 13), @p1='?' (Size = 75), @p2='?' (DbType = Boolean)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "PaginaInhouden" ("Sleutel", "Inhoud", "IsGepubliceerd")
+      VALUES (@p0, @p1, @p2);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 15), @p1='?' (Size = 150), @p2='?' (DbType = Boolean)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "PaginaInhouden" ("Sleutel", "Inhoud", "IsGepubliceerd")
+      VALUES (@p0, @p1, @p2);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 20), @p1='?' (Size = 117), @p2='?' (DbType = Boolean)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "PaginaInhouden" ("Sleutel", "Inhoud", "IsGepubliceerd")
+      VALUES (@p0, @p1, @p2);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 11), @p1='?' (Size = 148), @p2='?' (DbType = Boolean)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "PaginaInhouden" ("Sleutel", "Inhoud", "IsGepubliceerd")
+      VALUES (@p0, @p1, @p2);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 18), @p1='?' (Size = 108), @p2='?' (DbType = Boolean)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "PaginaInhouden" ("Sleutel", "Inhoud", "IsGepubliceerd")
+      VALUES (@p0, @p1, @p2);
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (Size = 18), @p2='?' (Size = 150), @p3='?' (Size = 42), @p4='?' (Size = 726), @p5='?' (Size = 16), @p6='?' (Size = 83), @p7='?', @p8='?' (Size = 16), @p9='?' (Size = 17)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Profielen" ("BijgewerktOp", "Email", "KorteIntroductie", "LinkedInUrl", "OverMijTekst", "ProfielfotoPad", "Tagline", "Telefoon", "VolledigeNaam", "Woonplaats")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (Size = 24), @p2='?' (Size = 16), @p3='?' (Size = 189), @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (Size = 132), @p7='?' (Size = 558), @p8='?' (Size = 17), @p9='?' (Size = 27), @p10='?' (Size = 24), @p11='?' (Size = 59), @p12='?' (Size = 33), @p13='?' (Size = 223), @p14='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Projecten" ("BijgewerktOp", "Categorie", "CoverPad", "Geleerd", "IsGepubliceerd", "IsUitgelicht", "KorteSamenvatting", "Omschrijving", "Periode", "Rol", "Slug", "Technologieen", "Titel", "Uitdaging", "Volgorde")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (Size = 12), @p2='?' (Size = 16), @p3='?' (Size = 145), @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (Size = 132), @p7='?' (Size = 585), @p8='?' (Size = 17), @p9='?' (Size = 30), @p10='?' (Size = 12), @p11='?' (Size = 51), @p12='?' (Size = 29), @p13='?' (Size = 186), @p14='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Projecten" ("BijgewerktOp", "Categorie", "CoverPad", "Geleerd", "IsGepubliceerd", "IsUitgelicht", "KorteSamenvatting", "Omschrijving", "Periode", "Rol", "Slug", "Technologieen", "Titel", "Uitdaging", "Volgorde")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (Size = 19), @p2='?' (Size = 16), @p3='?' (Size = 164), @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (Size = 126), @p7='?' (Size = 630), @p8='?' (Size = 4), @p9='?' (Size = 16), @p10='?' (Size = 18), @p11='?' (Size = 52), @p12='?' (Size = 31), @p13='?' (Size = 175), @p14='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Projecten" ("BijgewerktOp", "Categorie", "CoverPad", "Geleerd", "IsGepubliceerd", "IsUitgelicht", "KorteSamenvatting", "Omschrijving", "Periode", "Rol", "Slug", "Technologieen", "Titel", "Uitdaging", "Volgorde")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (Size = 20), @p2='?' (Size = 16), @p3='?' (Size = 143), @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (Size = 125), @p7='?' (Size = 533), @p8='?' (Size = 17), @p9='?' (Size = 24), @p10='?' (Size = 24), @p11='?' (Size = 60), @p12='?' (Size = 24), @p13='?' (Size = 155), @p14='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Projecten" ("BijgewerktOp", "Categorie", "CoverPad", "Geleerd", "IsGepubliceerd", "IsUitgelicht", "KorteSamenvatting", "Omschrijving", "Periode", "Rol", "Slug", "Technologieen", "Titel", "Uitdaging", "Volgorde")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 17), @p1='?' (Size = 20), @p2='?' (DbType = Boolean), @p3='?' (Size = 9), @p4='?' (Size = 424), @p5='?' (Size = 19), @p6='?' (Size = 223), @p7='?', @p8='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Stages" ("Bedrijf", "Functie", "IsGepubliceerd", "Locatie", "Omschrijving", "Periode", "Taken", "VerslagPad", "Volgorde")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 25), @p1='?' (Size = 34), @p2='?' (DbType = Boolean), @p3='?' (Size = 9), @p4='?' (Size = 198), @p5='?' (Size = 11), @p6='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Werkervaringen" ("Bedrijf", "Functie", "IsGepubliceerd", "Locatie", "Omschrijving", "Periode", "Volgorde")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 18), @p1='?' (Size = 22), @p2='?' (DbType = Boolean), @p3='?' (Size = 9), @p4='?' (Size = 111), @p5='?' (Size = 4), @p6='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Werkervaringen" ("Bedrijf", "Functie", "IsGepubliceerd", "Locatie", "Omschrijving", "Periode", "Volgorde")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p7='?' (Size = 37), @p8='?' (Size = 16), @p9='?' (DbType = Int32), @p10='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "GallerijAfbeeldingen" ("Onderschrift", "Pad", "ProjectId", "Volgorde")
+      VALUES (@p7, @p8, @p9, @p10)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 31), @p1='?' (Size = 16), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "GallerijAfbeeldingen" ("Onderschrift", "Pad", "ProjectId", "Volgorde")
+      VALUES (@p0, @p1, @p2, @p3)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 29), @p1='?' (Size = 16), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "GallerijAfbeeldingen" ("Onderschrift", "Pad", "ProjectId", "Volgorde")
+      VALUES (@p0, @p1, @p2, @p3)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 31), @p1='?' (Size = 16), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "GallerijAfbeeldingen" ("Onderschrift", "Pad", "ProjectId", "Volgorde")
+      VALUES (@p0, @p1, @p2, @p3)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 18), @p1='?' (Size = 16), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "GallerijAfbeeldingen" ("Onderschrift", "Pad", "ProjectId", "Volgorde")
+      VALUES (@p0, @p1, @p2, @p3)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 31), @p1='?' (Size = 16), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "GallerijAfbeeldingen" ("Onderschrift", "Pad", "ProjectId", "Volgorde")
+      VALUES (@p0, @p1, @p2, @p3)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 26), @p1='?' (Size = 16), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "GallerijAfbeeldingen" ("Onderschrift", "Pad", "ProjectId", "Volgorde")
+      VALUES (@p0, @p1, @p2, @p3)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 13), @p1='?' (Size = 16), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "GallerijAfbeeldingen" ("Onderschrift", "Pad", "ProjectId", "Volgorde")
+      VALUES (@p0, @p1, @p2, @p3)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p0='?' (Size = 17), @p1='?' (Size = 16), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "GallerijAfbeeldingen" ("Onderschrift", "Pad", "ProjectId", "Volgorde")
+      VALUES (@p0, @p1, @p2, @p3)
+      RETURNING "Id";
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5095
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: C:\Users\SanderVanPraet\Documents\Sander Van Praet\SchoolPortfolio
+warn: Microsoft.EntityFrameworkCore.Query[10103]
+      The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Categorie", "p"."CoverPad", "p"."Geleerd", "p"."IsGepubliceerd", "p"."IsUitgelicht", "p"."KorteSamenvatting", "p"."Omschrijving", "p"."Periode", "p"."Rol", "p"."Slug", "p"."Technologieen", "p"."Titel", "p"."Uitdaging", "p"."Volgorde", "g"."Id", "g"."Onderschrift", "g"."Pad", "g"."ProjectId", "g"."Volgorde"
+      FROM "Projecten" AS "p"
+      LEFT JOIN "GallerijAfbeeldingen" AS "g" ON "p"."Id" = "g"."ProjectId"
+      WHERE "p"."IsUitgelicht"
+      ORDER BY "p"."Volgorde", "p"."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."Id", "o"."Instelling", "o"."IsGepubliceerd", "o"."Locatie", "o"."Omschrijving", "o"."Periode", "o"."Titel", "o"."Volgorde"
+      FROM "Opleidingen" AS "o"
+      ORDER BY "o"."Volgorde"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."Id", "o"."Instelling", "o"."IsGepubliceerd", "o"."Locatie", "o"."Omschrijving", "o"."Periode", "o"."Titel", "o"."Volgorde"
+      FROM "Opleidingen" AS "o"
+      ORDER BY "o"."Volgorde"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (Size = 13)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Sleutel", "p"."Inhoud", "p"."IsGepubliceerd"
+      FROM "PaginaInhouden" AS "p"
+      WHERE "p"."Sleutel" = @p
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Categorie", "p"."CoverPad", "p"."Geleerd", "p"."IsGepubliceerd", "p"."IsUitgelicht", "p"."KorteSamenvatting", "p"."Omschrijving", "p"."Periode", "p"."Rol", "p"."Slug", "p"."Technologieen", "p"."Titel", "p"."Uitdaging", "p"."Volgorde", "g"."Id", "g"."Onderschrift", "g"."Pad", "g"."ProjectId", "g"."Volgorde"
+      FROM "Projecten" AS "p"
+      LEFT JOIN "GallerijAfbeeldingen" AS "g" ON "p"."Id" = "g"."ProjectId"
+      WHERE "p"."IsUitgelicht"
+      ORDER BY "p"."Volgorde", "p"."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."Id", "o"."Instelling", "o"."IsGepubliceerd", "o"."Locatie", "o"."Omschrijving", "o"."Periode", "o"."Titel", "o"."Volgorde"
+      FROM "Opleidingen" AS "o"
+      ORDER BY "o"."Volgorde"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."Id", "o"."Instelling", "o"."IsGepubliceerd", "o"."Locatie", "o"."Omschrijving", "o"."Periode", "o"."Titel", "o"."Volgorde"
+      FROM "Opleidingen" AS "o"
+      ORDER BY "o"."Volgorde"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (Size = 13)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Sleutel", "p"."Inhoud", "p"."IsGepubliceerd"
+      FROM "PaginaInhouden" AS "p"
+      WHERE "p"."Sleutel" = @p
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Categorie", "p"."CoverPad", "p"."Geleerd", "p"."IsGepubliceerd", "p"."IsUitgelicht", "p"."KorteSamenvatting", "p"."Omschrijving", "p"."Periode", "p"."Rol", "p"."Slug", "p"."Technologieen", "p"."Titel", "p"."Uitdaging", "p"."Volgorde", "g"."Id", "g"."Onderschrift", "g"."Pad", "g"."ProjectId", "g"."Volgorde"
+      FROM "Projecten" AS "p"
+      LEFT JOIN "GallerijAfbeeldingen" AS "g" ON "p"."Id" = "g"."ProjectId"
+      ORDER BY "p"."Volgorde", "p"."Titel", "p"."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (Size = 15)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Sleutel", "p"."Inhoud", "p"."IsGepubliceerd"
+      FROM "PaginaInhouden" AS "p"
+      WHERE "p"."Sleutel" = @p
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@slug='?' (Size = 24)], CommandType='Text', CommandTimeout='30']
+      SELECT "p0"."Id", "p0"."BijgewerktOp", "p0"."Categorie", "p0"."CoverPad", "p0"."Geleerd", "p0"."IsGepubliceerd", "p0"."IsUitgelicht", "p0"."KorteSamenvatting", "p0"."Omschrijving", "p0"."Periode", "p0"."Rol", "p0"."Slug", "p0"."Technologieen", "p0"."Titel", "p0"."Uitdaging", "p0"."Volgorde", "g"."Id", "g"."Onderschrift", "g"."Pad", "g"."ProjectId", "g"."Volgorde"
+      FROM (
+          SELECT "p"."Id", "p"."BijgewerktOp", "p"."Categorie", "p"."CoverPad", "p"."Geleerd", "p"."IsGepubliceerd", "p"."IsUitgelicht", "p"."KorteSamenvatting", "p"."Omschrijving", "p"."Periode", "p"."Rol", "p"."Slug", "p"."Technologieen", "p"."Titel", "p"."Uitdaging", "p"."Volgorde"
+          FROM "Projecten" AS "p"
+          WHERE "p"."Slug" = @slug
+          LIMIT 1
+      ) AS "p0"
+      LEFT JOIN "GallerijAfbeeldingen" AS "g" ON "p0"."Id" = "g"."ProjectId"
+      ORDER BY "p0"."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@slug='?' (Size = 24)], CommandType='Text', CommandTimeout='30']
+      SELECT "p0"."Id", "p0"."BijgewerktOp", "p0"."Categorie", "p0"."CoverPad", "p0"."Geleerd", "p0"."IsGepubliceerd", "p0"."IsUitgelicht", "p0"."KorteSamenvatting", "p0"."Omschrijving", "p0"."Periode", "p0"."Rol", "p0"."Slug", "p0"."Technologieen", "p0"."Titel", "p0"."Uitdaging", "p0"."Volgorde", "g"."Id", "g"."Onderschrift", "g"."Pad", "g"."ProjectId", "g"."Volgorde"
+      FROM (
+          SELECT "p"."Id", "p"."BijgewerktOp", "p"."Categorie", "p"."CoverPad", "p"."Geleerd", "p"."IsGepubliceerd", "p"."IsUitgelicht", "p"."KorteSamenvatting", "p"."Omschrijving", "p"."Periode", "p"."Rol", "p"."Slug", "p"."Technologieen", "p"."Titel", "p"."Uitdaging", "p"."Volgorde"
+          FROM "Projecten" AS "p"
+          WHERE "p"."Slug" = @slug
+          LIMIT 1
+      ) AS "p0"
+      LEFT JOIN "GallerijAfbeeldingen" AS "g" ON "p0"."Id" = "g"."ProjectId"
+      ORDER BY "p0"."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Categorie", "p"."CoverPad", "p"."Geleerd", "p"."IsGepubliceerd", "p"."IsUitgelicht", "p"."KorteSamenvatting", "p"."Omschrijving", "p"."Periode", "p"."Rol", "p"."Slug", "p"."Technologieen", "p"."Titel", "p"."Uitdaging", "p"."Volgorde", "g"."Id", "g"."Onderschrift", "g"."Pad", "g"."ProjectId", "g"."Volgorde"
+      FROM "Projecten" AS "p"
+      LEFT JOIN "GallerijAfbeeldingen" AS "g" ON "p"."Id" = "g"."ProjectId"
+      WHERE "p"."IsUitgelicht"
+      ORDER BY "p"."Volgorde", "p"."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."Id", "o"."Instelling", "o"."IsGepubliceerd", "o"."Locatie", "o"."Omschrijving", "o"."Periode", "o"."Titel", "o"."Volgorde"
+      FROM "Opleidingen" AS "o"
+      ORDER BY "o"."Volgorde"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."Id", "o"."Instelling", "o"."IsGepubliceerd", "o"."Locatie", "o"."Omschrijving", "o"."Periode", "o"."Titel", "o"."Volgorde"
+      FROM "Opleidingen" AS "o"
+      ORDER BY "o"."Volgorde"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (Size = 13)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Sleutel", "p"."Inhoud", "p"."IsGepubliceerd"
+      FROM "PaginaInhouden" AS "p"
+      WHERE "p"."Sleutel" = @p
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Categorie", "p"."CoverPad", "p"."Geleerd", "p"."IsGepubliceerd", "p"."IsUitgelicht", "p"."KorteSamenvatting", "p"."Omschrijving", "p"."Periode", "p"."Rol", "p"."Slug", "p"."Technologieen", "p"."Titel", "p"."Uitdaging", "p"."Volgorde", "g"."Id", "g"."Onderschrift", "g"."Pad", "g"."ProjectId", "g"."Volgorde"
+      FROM "Projecten" AS "p"
+      LEFT JOIN "GallerijAfbeeldingen" AS "g" ON "p"."Id" = "g"."ProjectId"
+      WHERE "p"."IsUitgelicht"
+      ORDER BY "p"."Volgorde", "p"."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."Id", "o"."Instelling", "o"."IsGepubliceerd", "o"."Locatie", "o"."Omschrijving", "o"."Periode", "o"."Titel", "o"."Volgorde"
+      FROM "Opleidingen" AS "o"
+      ORDER BY "o"."Volgorde"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."Id", "o"."Instelling", "o"."IsGepubliceerd", "o"."Locatie", "o"."Omschrijving", "o"."Periode", "o"."Titel", "o"."Volgorde"
+      FROM "Opleidingen" AS "o"
+      ORDER BY "o"."Volgorde"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@p='?' (Size = 13)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Sleutel", "p"."Inhoud", "p"."IsGepubliceerd"
+      FROM "PaginaInhouden" AS "p"
+      WHERE "p"."Sleutel" = @p
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Categorie", "p"."CoverPad", "p"."Geleerd", "p"."IsGepubliceerd", "p"."IsUitgelicht", "p"."KorteSamenvatting", "p"."Omschrijving", "p"."Periode", "p"."Rol", "p"."Slug", "p"."Technologieen", "p"."Titel", "p"."Uitdaging", "p"."Volgorde", "g"."Id", "g"."Onderschrift", "g"."Pad", "g"."ProjectId", "g"."Volgorde"
+      FROM "Projecten" AS "p"
+      LEFT JOIN "GallerijAfbeeldingen" AS "g" ON "p"."Id" = "g"."ProjectId"
+      ORDER BY "p"."Volgorde", "p"."Titel", "p"."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (Size = 15)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Sleutel", "p"."Inhoud", "p"."IsGepubliceerd"
+      FROM "PaginaInhouden" AS "p"
+      WHERE "p"."Sleutel" = @p
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM "Projecten" AS "p"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM "ContactBerichten" AS "c"
+      WHERE NOT ("c"."IsGelezen")
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM "Opleidingen" AS "o"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM "Werkervaringen" AS "w"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (32ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "c"."Id", "c"."Email", "c"."Inhoud", "c"."IsGelezen", "c"."Naam", "c"."Onderwerp", "c"."VerstuurdOp"
+      FROM "ContactBerichten" AS "c"
+      ORDER BY "c"."VerstuurdOp" DESC
+      LIMIT @p
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?' (Size = 4), @p2='?', @p3='?' (Size = 4), @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (Size = 4), @p7='?' (Size = 4), @p8='?' (Size = 3), @p9='?' (Size = 4), @p10='?' (Size = 4), @p11='?' (Size = 5), @p12='?' (Size = 4), @p13='?' (Size = 4), @p14='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Projecten" ("BijgewerktOp", "Categorie", "CoverPad", "Geleerd", "IsGepubliceerd", "IsUitgelicht", "KorteSamenvatting", "Omschrijving", "Periode", "Rol", "Slug", "Technologieen", "Titel", "Uitdaging", "Volgorde")
+      VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14)
+      RETURNING "Id";
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Categorie", "p"."CoverPad", "p"."Geleerd", "p"."IsGepubliceerd", "p"."IsUitgelicht", "p"."KorteSamenvatting", "p"."Omschrijving", "p"."Periode", "p"."Rol", "p"."Slug", "p"."Technologieen", "p"."Titel", "p"."Uitdaging", "p"."Volgorde"
+      FROM "Projecten" AS "p"
+      WHERE "p"."IsGepubliceerd"
+      ORDER BY "p"."Volgorde"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Categorie", "p"."CoverPad", "p"."Geleerd", "p"."IsGepubliceerd", "p"."IsUitgelicht", "p"."KorteSamenvatting", "p"."Omschrijving", "p"."Periode", "p"."Rol", "p"."Slug", "p"."Technologieen", "p"."Titel", "p"."Uitdaging", "p"."Volgorde", "g"."Id", "g"."Onderschrift", "g"."Pad", "g"."ProjectId", "g"."Volgorde"
+      FROM "Projecten" AS "p"
+      LEFT JOIN "GallerijAfbeeldingen" AS "g" ON "p"."Id" = "g"."ProjectId"
+      WHERE "p"."IsUitgelicht"
+      ORDER BY "p"."Volgorde", "p"."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."Id", "o"."Instelling", "o"."IsGepubliceerd", "o"."Locatie", "o"."Omschrijving", "o"."Periode", "o"."Titel", "o"."Volgorde"
+      FROM "Opleidingen" AS "o"
+      ORDER BY "o"."Volgorde"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."Id", "o"."Instelling", "o"."IsGepubliceerd", "o"."Locatie", "o"."Omschrijving", "o"."Periode", "o"."Titel", "o"."Volgorde"
+      FROM "Opleidingen" AS "o"
+      ORDER BY "o"."Volgorde"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (Size = 13)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Sleutel", "p"."Inhoud", "p"."IsGepubliceerd"
+      FROM "PaginaInhouden" AS "p"
+      WHERE "p"."Sleutel" = @p
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Categorie", "p"."CoverPad", "p"."Geleerd", "p"."IsGepubliceerd", "p"."IsUitgelicht", "p"."KorteSamenvatting", "p"."Omschrijving", "p"."Periode", "p"."Rol", "p"."Slug", "p"."Technologieen", "p"."Titel", "p"."Uitdaging", "p"."Volgorde", "g"."Id", "g"."Onderschrift", "g"."Pad", "g"."ProjectId", "g"."Volgorde"
+      FROM "Projecten" AS "p"
+      LEFT JOIN "GallerijAfbeeldingen" AS "g" ON "p"."Id" = "g"."ProjectId"
+      ORDER BY "p"."Volgorde", "p"."Titel", "p"."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (Size = 15)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Sleutel", "p"."Inhoud", "p"."IsGepubliceerd"
+      FROM "PaginaInhouden" AS "p"
+      WHERE "p"."Sleutel" = @p
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@slug='?' (Size = 24)], CommandType='Text', CommandTimeout='30']
+      SELECT "p0"."Id", "p0"."BijgewerktOp", "p0"."Categorie", "p0"."CoverPad", "p0"."Geleerd", "p0"."IsGepubliceerd", "p0"."IsUitgelicht", "p0"."KorteSamenvatting", "p0"."Omschrijving", "p0"."Periode", "p0"."Rol", "p0"."Slug", "p0"."Technologieen", "p0"."Titel", "p0"."Uitdaging", "p0"."Volgorde", "g"."Id", "g"."Onderschrift", "g"."Pad", "g"."ProjectId", "g"."Volgorde"
+      FROM (
+          SELECT "p"."Id", "p"."BijgewerktOp", "p"."Categorie", "p"."CoverPad", "p"."Geleerd", "p"."IsGepubliceerd", "p"."IsUitgelicht", "p"."KorteSamenvatting", "p"."Omschrijving", "p"."Periode", "p"."Rol", "p"."Slug", "p"."Technologieen", "p"."Titel", "p"."Uitdaging", "p"."Volgorde"
+          FROM "Projecten" AS "p"
+          WHERE "p"."Slug" = @slug
+          LIMIT 1
+      ) AS "p0"
+      LEFT JOIN "GallerijAfbeeldingen" AS "g" ON "p0"."Id" = "g"."ProjectId"
+      ORDER BY "p0"."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."Id", "o"."Instelling", "o"."IsGepubliceerd", "o"."Locatie", "o"."Omschrijving", "o"."Periode", "o"."Titel", "o"."Volgorde"
+      FROM "Opleidingen" AS "o"
+      ORDER BY "o"."Volgorde"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (Size = 13)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Sleutel", "p"."Inhoud", "p"."IsGepubliceerd"
+      FROM "PaginaInhouden" AS "p"
+      WHERE "p"."Sleutel" = @p
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Categorie", "p"."CoverPad", "p"."Geleerd", "p"."IsGepubliceerd", "p"."IsUitgelicht", "p"."KorteSamenvatting", "p"."Omschrijving", "p"."Periode", "p"."Rol", "p"."Slug", "p"."Technologieen", "p"."Titel", "p"."Uitdaging", "p"."Volgorde", "g"."Id", "g"."Onderschrift", "g"."Pad", "g"."ProjectId", "g"."Volgorde"
+      FROM "Projecten" AS "p"
+      LEFT JOIN "GallerijAfbeeldingen" AS "g" ON "p"."Id" = "g"."ProjectId"
+      WHERE "p"."IsUitgelicht"
+      ORDER BY "p"."Volgorde", "p"."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."Id", "o"."Instelling", "o"."IsGepubliceerd", "o"."Locatie", "o"."Omschrijving", "o"."Periode", "o"."Titel", "o"."Volgorde"
+      FROM "Opleidingen" AS "o"
+      ORDER BY "o"."Volgorde"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."Id", "o"."Instelling", "o"."IsGepubliceerd", "o"."Locatie", "o"."Omschrijving", "o"."Periode", "o"."Titel", "o"."Volgorde"
+      FROM "Opleidingen" AS "o"
+      ORDER BY "o"."Volgorde"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (Size = 13)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Sleutel", "p"."Inhoud", "p"."IsGepubliceerd"
+      FROM "PaginaInhouden" AS "p"
+      WHERE "p"."Sleutel" = @p
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Categorie", "p"."CoverPad", "p"."Geleerd", "p"."IsGepubliceerd", "p"."IsUitgelicht", "p"."KorteSamenvatting", "p"."Omschrijving", "p"."Periode", "p"."Rol", "p"."Slug", "p"."Technologieen", "p"."Titel", "p"."Uitdaging", "p"."Volgorde", "g"."Id", "g"."Onderschrift", "g"."Pad", "g"."ProjectId", "g"."Volgorde"
+      FROM "Projecten" AS "p"
+      LEFT JOIN "GallerijAfbeeldingen" AS "g" ON "p"."Id" = "g"."ProjectId"
+      WHERE "p"."IsUitgelicht"
+      ORDER BY "p"."Volgorde", "p"."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."Id", "o"."Instelling", "o"."IsGepubliceerd", "o"."Locatie", "o"."Omschrijving", "o"."Periode", "o"."Titel", "o"."Volgorde"
+      FROM "Opleidingen" AS "o"
+      ORDER BY "o"."Volgorde"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "o"."Id", "o"."Instelling", "o"."IsGepubliceerd", "o"."Locatie", "o"."Omschrijving", "o"."Periode", "o"."Titel", "o"."Volgorde"
+      FROM "Opleidingen" AS "o"
+      ORDER BY "o"."Volgorde"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (Size = 13)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Sleutel", "p"."Inhoud", "p"."IsGepubliceerd"
+      FROM "PaginaInhouden" AS "p"
+      WHERE "p"."Sleutel" = @p
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Categorie", "p"."CoverPad", "p"."Geleerd", "p"."IsGepubliceerd", "p"."IsUitgelicht", "p"."KorteSamenvatting", "p"."Omschrijving", "p"."Periode", "p"."Rol", "p"."Slug", "p"."Technologieen", "p"."Titel", "p"."Uitdaging", "p"."Volgorde", "g"."Id", "g"."Onderschrift", "g"."Pad", "g"."ProjectId", "g"."Volgorde"
+      FROM "Projecten" AS "p"
+      LEFT JOIN "GallerijAfbeeldingen" AS "g" ON "p"."Id" = "g"."ProjectId"
+      ORDER BY "p"."Volgorde", "p"."Titel", "p"."Id"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (Size = 15)], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Sleutel", "p"."Inhoud", "p"."IsGepubliceerd"
+      FROM "PaginaInhouden" AS "p"
+      WHERE "p"."Sleutel" = @p
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Email", "p"."KorteIntroductie", "p"."LinkedInUrl", "p"."OverMijTekst", "p"."ProfielfotoPad", "p"."Tagline", "p"."Telefoon", "p"."VolledigeNaam", "p"."Woonplaats"
+      FROM "Profielen" AS "p"
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM "Projecten" AS "p"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM "ContactBerichten" AS "c"
+      WHERE NOT ("c"."IsGelezen")
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM "Opleidingen" AS "o"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*)
+      FROM "Werkervaringen" AS "w"
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "c"."Id", "c"."Email", "c"."Inhoud", "c"."IsGelezen", "c"."Naam", "c"."Onderwerp", "c"."VerstuurdOp"
+      FROM "ContactBerichten" AS "c"
+      ORDER BY "c"."VerstuurdOp" DESC
+      LIMIT @p
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "p"."Id", "p"."BijgewerktOp", "p"."Categorie", "p"."CoverPad", "p"."Geleerd", "p"."IsGepubliceerd", "p"."IsUitgelicht", "p"."KorteSamenvatting", "p"."Omschrijving", "p"."Periode", "p"."Rol", "p"."Slug", "p"."Technologieen", "p"."Titel", "p"."Uitdaging", "p"."Volgorde"
+      FROM "Projecten" AS "p"
+      WHERE "p"."IsGepubliceerd"
+      ORDER BY "p"."Volgorde"
