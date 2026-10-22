@@ -13,14 +13,16 @@ public static class DataInitializer
 
         // Verzeker de DB-tabel voor migratiegeschiedenis, zodat Migrate() op een
         // schone server niet faalt met "no such table: __EFMigrationsHistory".
+        var dbPad = db.Database.GetDbConnection().DataSource ?? "onbekend";
+
         try
         {
             db.Database.EnsureCreated();
         }
-        catch
+        catch (Exception ex)
         {
-            // Bij een readonly map of een lock van een andere pool is het
-            // veiliger om door te gaan dan om direkt op te houden.
+            var logger = services.GetService<Microsoft.Extensions.Logging.ILogger<Program>>();
+            logger?.LogError(ex, "EnsureCreated() mislukt voor {DbPad}. Kan schema niet initialiseren.", dbPad);
         }
 
         try
@@ -30,10 +32,18 @@ public static class DataInitializer
         catch (Exception ex)
         {
             var logger = services.GetService<Microsoft.Extensions.Logging.ILogger<Program>>();
-            logger?.LogError(ex, "Migrate() mislukt voor {DbPad}. De app start wel, maar schema-updates worden overgeslagen.", db.Database.GetDbConnection().DataSource ?? "onbekend");
+            logger?.LogError(ex, "Migrate() mislukt voor {DbPad}. Kan schema-history niet aanpassen.", dbPad);
         }
-        if (db.Profielen.Any())
+
+        // Stel alleen standaarddata in op een database die nog geen profiling heeft.
+        // Als de tabel niet bestaat, dan heeft de database niet de juiste basisstructuur
+        // en mogen we hier geen standaarddata proberen te schrijven.
+        if (db.Database.CanConnect())
         {
+            try
+            {
+                if (db.Profielen.Any())
+                {
             // Alleen-rapporten: zet bestaande stageverslag-PDF om naar een Rapport-record,
             // zodat oudere uploads behouden blijven en in de nieuwe dagrapport-lijst verschijnen.
             foreach (var stage in db.Stages.Include(s => s.Rapporten).Where(s => s.VerslagPad != null).ToList())
@@ -51,11 +61,32 @@ public static class DataInitializer
             }
             db.SaveChanges();
             return;
+            }
+            catch (Exception ex)
+            {
+                var logger = services.GetService<Microsoft.Extensions.Logging.ILogger<Program>>();
+                logger?.LogError(ex, "Injecteer standaarddata mislukt voor {DbPad}.", dbPad);
+            }
+        }
+        else
+        {
+            var logger = services.GetService<Microsoft.Extensions.Logging.ILogger<Program>>();
+            logger?.LogWarning("Geen verbinding met de database {DbPad}; standaarddata wordt overgeslagen.", dbPad);
         }
 
-        db.Profielen.Add(new Profiel
+        // Als de tabel Profielen ontbreekt, dan is de basisstructuur onvolledig.
+        // We proberen de rest van de initialisatie niet voort te zetten in een onzekere staat.
+        if (!db.Profielen.Any())
         {
-            VolledigeNaam = "Sander Van Praet",
+            var logger = services.GetService<Microsoft.Extensions.Logging.ILogger<Program>>();
+            logger?.LogWarning("Tabel Profielen ontbreekt na initialisatie van {DbPad}; standaarddata wordt niet aangemaakt.", dbPad);
+        }
+
+        if (db.Profielen.Any())
+        {
+            db.Profielen.Add(new Profiel
+            {
+                VolledigeNaam = "Sander Van Praet",
             Tagline = "Student elektriciteit & installatietechniek — gewend om secuur en veilig te werken.",
             KorteIntroductie = "Ik studeer elektriciteit en werk rond installatietechniek: installatieschema's, stroomkringen, motorsturingen en meetrapporten volgens de AREI-normen.",
             OverMijTekst = "Elektriciteit trekt me aan omdat het tastbaar werk is: wat ik aanleg en afsluit, moet veilig blijven functioneren, elke dag. Het werk vraagt precisie, een duidelijke aanpak en goedgekeurd materiaal — en dat past bij mij.\n\nIn de lessen bestudeer ik de volledige keten van de installatietechniek: verdeelborden, beveiligingen, aarding, motorsturingen en meettechnieken. Waar het kan, benoem ik verder met een multimeter en teken ik schema's die collega's meteen kunnen hergebruiken.\n\nNaast school werk ik liever op een bouwplaats of in een werkstraat: ik leer het snelst door te zien hoe een ervaren elektricien zijn werk goed plant, zijn materiaal klaarzetten en zijn installatie afwerkt tot het feilloos door de keuring loopt.",
