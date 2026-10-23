@@ -11,7 +11,7 @@ namespace SchoolPortfolio.Migrations
         {
             var optionsBuilder = new DbContextOptionsBuilder<SiteDbContext>();
 #pragma warning disable CS0618 // Type or member is obsolete
-            optionsBuilder.UseSqlite("Data Source=SchoolPortfolio.db");
+            optionsBuilder.UseSqlite("Data Source=app.db");
 #pragma warning restore CS0618
             return new SiteDbContext(optionsBuilder.Options);
         }
